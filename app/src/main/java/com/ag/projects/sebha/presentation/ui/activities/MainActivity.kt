@@ -1,4 +1,4 @@
-package com.ag.projects.sebha
+package com.ag.projects.sebha.presentation.ui.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,7 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.ag.projects.sebha.ui.theme.SebhaTheme
+import com.ag.projects.sebha.presentation.ui.screen.HomeScreen
+import com.ag.projects.sebha.presentation.ui.theme.SebhaTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,9 +16,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SebhaTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-
-                }
+               HomeScreen()
             }
         }
     }
