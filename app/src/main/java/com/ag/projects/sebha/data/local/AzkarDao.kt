@@ -15,4 +15,7 @@ interface AzkarDao {
 
     @Query("UPDATE azkar_table SET count = count + 1 WHERE id = :id")
     suspend fun incrementAzkarCount(id: Int)
+
+    @Query("DELETE FROM azkar_table WHERE id = :id")
+    suspend fun deleteAzkar(id: Int)
 }

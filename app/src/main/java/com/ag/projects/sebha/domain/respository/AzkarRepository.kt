@@ -9,4 +9,6 @@ interface AzkarRepository {
     suspend fun getAzkar(): List<AzkarEntity>
 
     suspend fun incrementAzkarCount(id: Int)
+
+    suspend fun deleteAzkar(id: Int)
 }

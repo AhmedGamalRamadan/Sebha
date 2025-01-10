@@ -18,4 +18,7 @@ class AzkarRepositoryImpl(
     override suspend fun incrementAzkarCount(id: Int) {
         azkarDatabase.azkarDao().incrementAzkarCount(id)
     }
+
+    override suspend fun deleteAzkar(id: Int) =
+        azkarDatabase.azkarDao().deleteAzkar(id)
 }

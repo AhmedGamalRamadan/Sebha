@@ -73,9 +73,15 @@ fun HomeScreen(
                                     //increment the count
                                     scope.launch {
                                         viewModel.incrementAzkarCount(item.id)
+                                        viewModel.getAzkar()
                                     }
                                 },
-                                onDeleteClick = {}
+                                onDeleteClick = {
+                                   scope.launch {
+                                       viewModel.deleteAzkar(item.id)
+                                       viewModel.getAzkar()
+                                   }
+                                }
                             )
                         }
                     }

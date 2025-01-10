@@ -4,6 +4,7 @@ import androidx.room.Room
 import com.ag.projects.sebha.data.local.AzkarDatabase
 import com.ag.projects.sebha.data.respository.AzkarRepositoryImpl
 import com.ag.projects.sebha.domain.respository.AzkarRepository
+import com.ag.projects.sebha.domain.usecase.delete.DeleteAzkarUseCase
 import com.ag.projects.sebha.domain.usecase.get.GetAzkarUseCase
 import com.ag.projects.sebha.domain.usecase.increment.IncrementAzkarCountUseCase
 import com.ag.projects.sebha.domain.usecase.insert.InsertAzkarUseCase
@@ -39,8 +40,13 @@ val mainModule = module {
         IncrementAzkarCountUseCase(get())
     }
 
+    single {
+        DeleteAzkarUseCase(get())
+    }
+
     viewModel {
         HomeScreenViewModel(
+            get(),
             get(),
             get(),
             get()

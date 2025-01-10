@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ag.projects.sebha.data.local.AzkarEntity
+import com.ag.projects.sebha.domain.usecase.delete.DeleteAzkarUseCase
 import com.ag.projects.sebha.domain.usecase.get.GetAzkarUseCase
 import com.ag.projects.sebha.domain.usecase.increment.IncrementAzkarCountUseCase
 import com.ag.projects.sebha.domain.usecase.insert.InsertAzkarUseCase
@@ -15,7 +16,8 @@ import kotlinx.coroutines.launch
 class HomeScreenViewModel(
     private val insertAzkarUseCase: InsertAzkarUseCase,
     private val getAzkarUseCase: GetAzkarUseCase,
-    private val incrementAzkarCountUseCase: IncrementAzkarCountUseCase
+    private val incrementAzkarCountUseCase: IncrementAzkarCountUseCase,
+    private val deleteAzkarUseCase: DeleteAzkarUseCase
 ) : ViewModel() {
 
     init {
@@ -46,7 +48,7 @@ class HomeScreenViewModel(
     fun incrementAzkarCount(id:Int){
         viewModelScope.launch {
             incrementAzkarCountUseCase.incrementAzkarCount(id)
-            getAzkar()
+//            getAzkar()
         }
     }
 
@@ -65,6 +67,12 @@ class HomeScreenViewModel(
                     )
                 )
             }
+        }
+    }
+
+    fun deleteAzkar(id:Int){
+        viewModelScope.launch {
+            deleteAzkarUseCase.deleteAzkar(id)
         }
     }
 }
