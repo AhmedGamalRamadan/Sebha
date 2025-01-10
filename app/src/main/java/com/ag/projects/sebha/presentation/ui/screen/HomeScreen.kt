@@ -12,6 +12,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +22,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ag.projects.sebha.R
 import com.ag.projects.sebha.presentation.ui.components.AzkarCardItem
 import com.ag.projects.sebha.presentation.ui.components.alert_dialog.AlertDialogAzkar
 import com.ag.projects.sebha.util.Result
@@ -35,7 +39,7 @@ fun HomeScreen(
 ) {
 
     val viewModel: HomeScreenViewModel = getViewModel()
-    val azkar by viewModel.azkar.collectAsState()
+    val azkar by viewModel.azkar.collectAsStateWithLifecycle()
 
     var showDialog by remember {
         mutableStateOf(false)
@@ -46,6 +50,10 @@ fun HomeScreen(
     }
 
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(azkar) {
+        viewModel.getAzkar()
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize()
@@ -111,12 +119,14 @@ fun HomeScreen(
         }
         if (showDialog) {
             AlertDialogAzkar(
-                title = "Add Azkar",
+                title = stringResource(R.string.add_azkar),
                 azkar = userAzkarState,
                 onValueChange = {
                     userAzkarState = it
                 },
                 onConfirmButtonClicked = {
+                    showDialog = false
+
                     scope.launch {
                         viewModel.insertAzkar(
                             userAzkarState,
@@ -124,7 +134,6 @@ fun HomeScreen(
                         )
                         viewModel.getAzkar()
                     }
-                    showDialog = false
                 },
                 onDismissButtonClicked = {
                     showDialog = false

@@ -62,12 +62,14 @@ fun AlertDialogAzkar(
                     .fillMaxWidth()
                     .padding(7.dp),
                 placeholder = {
-                    Text(text = "add azkar")
+
+                    Text(text = stringResource(R.string.add_azkar))
                 },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
-                )
+                ),
+                maxLines = 1
             )
         },
         shape = RoundedCornerShape(9.dp),

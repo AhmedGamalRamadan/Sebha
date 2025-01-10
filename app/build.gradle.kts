@@ -58,23 +58,26 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation(libs.androidx.navigation.compose)
 
     // koin
-    implementation("io.insert-koin:koin-android:3.2.0-beta-1")
-    implementation("io.insert-koin:koin-androidx-navigation:3.2.0-beta-1")
-    implementation("io.insert-koin:koin-androidx-compose:3.2.0-beta-1")
-    testImplementation("io.insert-koin:koin-test-junit4:3.2.0-beta-1")
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.navigation)
+    implementation(libs.koin.androidx.compose)
+    testImplementation(libs.koin.test.junit4)
 
     // Room
-    implementation("androidx.room:room-ktx:2.6.0")
-    kapt("androidx.room:room-compiler:2.6.0")
-    implementation("androidx.room:room-paging:2.6.0")
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.paging)
 
 
     // Extended Icons
-    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+    implementation(libs.androidx.material.icons.extended)
 
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
+    //Swipe Refresh
+    implementation(libs.accompanist.swiperefresh)
 }
