@@ -12,8 +12,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,7 +29,6 @@ import com.ag.projects.sebha.presentation.ui.components.alert_dialog.AlertDialog
 import com.ag.projects.sebha.util.Result
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
-import org.koin.ext.clearQuotes
 
 @Composable
 fun HomeScreen(
@@ -45,15 +42,15 @@ fun HomeScreen(
         mutableStateOf(false)
     }
 
+    var isError by remember {
+        mutableStateOf(false)
+    }
+
     var userAzkarState by remember {
         mutableStateOf("")
     }
 
     val scope = rememberCoroutineScope()
-
-    LaunchedEffect(azkar) {
-        viewModel.getAzkar()
-    }
 
     Scaffold(
         modifier = modifier.fillMaxSize()
@@ -85,10 +82,10 @@ fun HomeScreen(
                                     }
                                 },
                                 onDeleteClick = {
-                                   scope.launch {
-                                       viewModel.deleteAzkar(item.id)
-                                       viewModel.getAzkar()
-                                   }
+                                    scope.launch {
+                                        viewModel.deleteAzkar(item.id)
+                                        viewModel.getAzkar()
+                                    }
                                 }
                             )
                         }
@@ -125,19 +122,27 @@ fun HomeScreen(
                     userAzkarState = it
                 },
                 onConfirmButtonClicked = {
-                    showDialog = false
 
-                    scope.launch {
-                        viewModel.insertAzkar(
-                            userAzkarState,
-                            count = 0
-                        )
-                        viewModel.getAzkar()
+                    if (userAzkarState.trim().isNotEmpty()) {
+                        isError = false
+                        scope.launch {
+                            viewModel.insertAzkar(
+                                userAzkarState,
+                                count = 0
+                            )
+                            viewModel.getAzkar()
+                            userAzkarState = ""
+                            showDialog = false
+                        }
+                    } else {
+                        isError = true
                     }
                 },
                 onDismissButtonClicked = {
                     showDialog = false
+                    isError = false
                 },
+                isError = isError
             )
         }
     }

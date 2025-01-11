@@ -23,6 +23,7 @@ fun AlertDialogAzkar(
     onValueChange: (String) -> Unit,
     onConfirmButtonClicked: () -> Unit,
     onDismissButtonClicked: () -> Unit,
+    isError: Boolean
 ) {
 
     AlertDialog(
@@ -69,7 +70,8 @@ fun AlertDialogAzkar(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
                 ),
-                maxLines = 1
+                maxLines = 1,
+                isError = isError
             )
         },
         shape = RoundedCornerShape(9.dp),
