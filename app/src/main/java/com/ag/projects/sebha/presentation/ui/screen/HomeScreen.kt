@@ -86,6 +86,12 @@ fun HomeScreen(
                                         viewModel.deleteAzkar(item.id)
                                         viewModel.getAzkar()
                                     }
+                                },
+                                onResetClick = {
+                                    scope.launch {
+                                        viewModel.resetAzkarToZero(item.id)
+                                        viewModel.getAzkar()
+                                    }
                                 }
                             )
                         }

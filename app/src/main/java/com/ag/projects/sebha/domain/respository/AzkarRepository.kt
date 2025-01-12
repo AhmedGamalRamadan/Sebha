@@ -11,4 +11,7 @@ interface AzkarRepository {
     suspend fun incrementAzkarCount(id: Int)
 
     suspend fun deleteAzkar(id: Int)
+
+    suspend fun resetAzkarToZero(id: Int)
+
 }
