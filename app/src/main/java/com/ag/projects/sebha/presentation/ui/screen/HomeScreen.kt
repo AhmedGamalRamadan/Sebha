@@ -27,6 +27,9 @@ import com.ag.projects.sebha.R
 import com.ag.projects.sebha.presentation.ui.components.AzkarCardItem
 import com.ag.projects.sebha.presentation.ui.components.alert_dialog.AlertDialogAzkar
 import com.ag.projects.sebha.util.Result
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshState
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -52,104 +55,118 @@ fun HomeScreen(
 
     val scope = rememberCoroutineScope()
 
+    val refreshState = rememberSwipeRefreshState(false)
+
+
     Scaffold(
         modifier = modifier.fillMaxSize()
     ) { innerpadding ->
 
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(innerpadding)
-        ) {
-
-            LazyColumn(
-                modifier = modifier.fillMaxSize()
-            ) {
-
-                when (azkar) {
-                    is Result.Success -> {
-                        val azkarList = (azkar as Result.Success).data
-
-                        items(azkarList) { item ->
-                            AzkarCardItem(
-                                modifier = modifier,
-                                azkar = item,
-                                onItemClick = {
-                                    //increment the count
-                                    scope.launch {
-                                        viewModel.incrementAzkarCount(item.id)
-                                        viewModel.getAzkar()
-                                    }
-                                },
-                                onDeleteClick = {
-                                    scope.launch {
-                                        viewModel.deleteAzkar(item.id)
-                                        viewModel.getAzkar()
-                                    }
-                                },
-                                onResetClick = {
-                                    scope.launch {
-                                        viewModel.resetAzkarToZero(item.id)
-                                        viewModel.getAzkar()
-                                    }
-                                }
-                            )
-                        }
-                    }
-
-                    is Result.Error -> {
-                        Log.d("Home Screen ", "Error ")
-                    }
-
-                    Result.Loading -> {
-                        Log.d("Home Screen ", "Loading ")
-                    }
+        SwipeRefresh(
+            state = refreshState,
+            onRefresh = {
+                refreshState.isRefreshing = true
+                scope.launch {
+                    viewModel.getAzkar()
+                    refreshState.isRefreshing = false
                 }
             }
-
-            FloatingActionButton(
-                onClick = {
-                    showDialog = true
-                },
-                containerColor = Color.Green,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp)
-
+        ) {
+            Box(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(innerpadding)
             ) {
-                Icon(Icons.Filled.Add, contentDescription = "Add")
-            }
-        }
-        if (showDialog) {
-            AlertDialogAzkar(
-                title = stringResource(R.string.add_azkar),
-                azkar = userAzkarState,
-                onValueChange = {
-                    userAzkarState = it
-                },
-                onConfirmButtonClicked = {
 
-                    if (userAzkarState.trim().isNotEmpty()) {
-                        isError = false
-                        scope.launch {
-                            viewModel.insertAzkar(
-                                userAzkarState,
-                                count = 0
-                            )
-                            viewModel.getAzkar()
-                            userAzkarState = ""
-                            showDialog = false
+                LazyColumn(
+                    modifier = modifier.fillMaxSize()
+                ) {
+
+                    when (azkar) {
+                        is Result.Success -> {
+                            val azkarList = (azkar as Result.Success).data
+
+                            items(azkarList) { item ->
+                                AzkarCardItem(
+                                    modifier = modifier,
+                                    azkar = item,
+                                    onItemClick = {
+                                        //increment the count
+                                        scope.launch {
+                                            viewModel.incrementAzkarCount(item.id)
+                                            viewModel.getAzkar()
+                                        }
+                                    },
+                                    onDeleteClick = {
+                                        scope.launch {
+                                            viewModel.deleteAzkar(item.id)
+                                            viewModel.getAzkar()
+                                        }
+                                    },
+                                    onResetClick = {
+                                        scope.launch {
+                                            viewModel.resetAzkarToZero(item.id)
+                                            viewModel.getAzkar()
+                                        }
+                                    }
+                                )
+                            }
                         }
-                    } else {
-                        isError = true
+
+                        is Result.Error -> {
+                            Log.d("Home Screen ", "Error ")
+                        }
+
+                        Result.Loading -> {
+                            Log.d("Home Screen ", "Loading ")
+                        }
                     }
-                },
-                onDismissButtonClicked = {
-                    showDialog = false
-                    isError = false
-                },
-                isError = isError
-            )
+                }
+
+                FloatingActionButton(
+                    onClick = {
+                        showDialog = true
+                    },
+                    containerColor = Color.Green,
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(16.dp)
+
+                ) {
+                    Icon(Icons.Filled.Add, contentDescription = "Add")
+                }
+            }
+            if (showDialog) {
+                AlertDialogAzkar(
+                    title = stringResource(R.string.add_azkar),
+                    azkar = userAzkarState,
+                    onValueChange = {
+                        userAzkarState = it
+                    },
+                    onConfirmButtonClicked = {
+
+                        if (userAzkarState.trim().isNotEmpty()) {
+                            isError = false
+                            scope.launch {
+                                viewModel.insertAzkar(
+                                    userAzkarState,
+                                    count = 0
+                                )
+                                viewModel.getAzkar()
+                                userAzkarState = ""
+                                showDialog = false
+                            }
+                        } else {
+                            isError = true
+                        }
+                    },
+                    onDismissButtonClicked = {
+                        showDialog = false
+                        isError = false
+                    },
+                    isError = isError
+                )
+            }
         }
     }
 }
