@@ -80,4 +80,10 @@ dependencies {
 
     //Swipe Refresh
     implementation(libs.accompanist.swiperefresh)
+
+    //glance widget
+    // For Glance support
+    implementation("androidx.glance:glance:1.1.1")
+    // For AppWidgets support
+    implementation("androidx.glance:glance-appwidget:1.1.1")
 }
