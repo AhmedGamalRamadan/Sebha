@@ -52,7 +52,12 @@ fun AlertDialogAzkar(
                 color = Color.Red,
             )
         },
-        title = { Text(text = title) },
+        title = {
+            Text(
+                text = title,
+                color = Color.Black
+            )
+        },
         text = {
             OutlinedTextField(
                 value = azkar,
@@ -63,12 +68,13 @@ fun AlertDialogAzkar(
                     .fillMaxWidth()
                     .padding(7.dp),
                 placeholder = {
-
                     Text(text = stringResource(R.string.add_azkar))
                 },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black
                 ),
                 maxLines = 1,
                 isError = isError

@@ -2,6 +2,7 @@ package com.ag.projects.sebha.presentation.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,12 +24,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ag.projects.sebha.R
 import com.ag.projects.sebha.data.local.AzkarEntity
+import com.ag.projects.sebha.presentation.ui.theme.DarkBlue
 
 @Composable
 fun AzkarCardItem(
@@ -39,6 +42,7 @@ fun AzkarCardItem(
     onResetClick: () -> Unit,
 ) {
 
+    val isSystemDark = isSystemInDarkTheme()
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -49,7 +53,7 @@ fun AzkarCardItem(
             },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = if (isSystemDark) DarkBlue else Color.White
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp,
@@ -74,7 +78,7 @@ fun AzkarCardItem(
                     modifier = modifier
                         .wrapContentSize()
                         .padding(end = 4.dp, bottom = 4.dp),
-                    color = Color.Black,
+                    color = if (isSystemDark) Color.White else Color.Black,
                     fontSize = 22.sp,
                     textAlign = TextAlign.Start
                 )
@@ -83,8 +87,9 @@ fun AzkarCardItem(
                     text = azkar.azkar,
                     modifier = modifier
                         .fillMaxWidth(),
-                    color = Color.Black,
+                    color = if (isSystemDark) Color.White else Color.Black,
                     fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.End
                 )
             }

@@ -26,9 +26,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ag.projects.sebha.R
 import com.ag.projects.sebha.presentation.ui.components.AzkarCardItem
 import com.ag.projects.sebha.presentation.ui.components.alert_dialog.AlertDialogAzkar
+import com.ag.projects.sebha.presentation.ui.theme.DarkBlue
 import com.ag.projects.sebha.util.Result
 import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -127,13 +127,17 @@ fun HomeScreen(
                     onClick = {
                         showDialog = true
                     },
-                    containerColor = Color.Green,
+                    containerColor = DarkBlue,
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(16.dp)
 
                 ) {
-                    Icon(Icons.Filled.Add, contentDescription = "Add")
+                    Icon(
+                        Icons.Filled.Add,
+                        contentDescription = "Add",
+                        tint = Color.White
+                    )
                 }
             }
             if (showDialog) {
