@@ -2,7 +2,6 @@ package com.ag.projects.sebha.presentation.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +18,7 @@ import androidx.compose.material.icons.filled.Replay
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ag.projects.sebha.R
 import com.ag.projects.sebha.data.local.AzkarEntity
-import com.ag.projects.sebha.presentation.ui.theme.DarkBlue
 
 @Composable
 fun AzkarCardItem(
@@ -42,7 +41,6 @@ fun AzkarCardItem(
     onResetClick: () -> Unit,
 ) {
 
-    val isSystemDark = isSystemInDarkTheme()
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -53,7 +51,7 @@ fun AzkarCardItem(
             },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (isSystemDark) DarkBlue else Color.White
+            containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp,
@@ -78,7 +76,7 @@ fun AzkarCardItem(
                     modifier = modifier
                         .wrapContentSize()
                         .padding(end = 4.dp, bottom = 4.dp),
-                    color = if (isSystemDark) Color.White else Color.Black,
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 22.sp,
                     textAlign = TextAlign.Start
                 )
@@ -87,7 +85,7 @@ fun AzkarCardItem(
                     text = azkar.azkar,
                     modifier = modifier
                         .fillMaxWidth(),
-                    color = if (isSystemDark) Color.White else Color.Black,
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.End

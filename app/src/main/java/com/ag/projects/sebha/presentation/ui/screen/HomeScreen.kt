@@ -27,6 +27,7 @@ import com.ag.projects.sebha.R
 import com.ag.projects.sebha.presentation.ui.components.AzkarCardItem
 import com.ag.projects.sebha.presentation.ui.components.alert_dialog.AlertDialogAzkar
 import com.ag.projects.sebha.presentation.ui.theme.DarkBlue
+import com.ag.projects.sebha.presentation.ui.theme.Green
 import com.ag.projects.sebha.util.Result
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -127,7 +128,7 @@ fun HomeScreen(
                     onClick = {
                         showDialog = true
                     },
-                    containerColor = DarkBlue,
+                    containerColor = Green,
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(16.dp)
