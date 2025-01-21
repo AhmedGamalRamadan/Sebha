@@ -71,10 +71,12 @@ fun AlertDialogAzkar(
                     Text(text = stringResource(R.string.add_azkar))
                 },
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
+                    focusedBorderColor = Color.DarkGray,
+                    unfocusedBorderColor = Color.DarkGray,
                     focusedTextColor = Color.Black,
-                    unfocusedTextColor = Color.Black
+                    unfocusedTextColor = Color.Black,
+                    cursorColor = Color.Black
+
                 ),
                 maxLines = 1,
                 isError = isError
