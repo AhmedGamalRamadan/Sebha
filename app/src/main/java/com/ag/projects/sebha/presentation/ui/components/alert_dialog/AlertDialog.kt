@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ag.projects.sebha.R
@@ -35,6 +36,7 @@ fun AlertDialogAzkar(
                 text = stringResource(R.string.confirm),
                 modifier = Modifier
                     .padding(8.dp)
+                    .testTag("confirm")
                     .clickable {
                         onConfirmButtonClicked()
                     },
@@ -46,6 +48,7 @@ fun AlertDialogAzkar(
                 text = stringResource(R.string.cancel),
                 modifier = Modifier
                     .padding(8.dp)
+                    .testTag("cancel")
                     .clickable {
                         onDismissButtonClicked()
                     },
@@ -66,7 +69,8 @@ fun AlertDialogAzkar(
                 },
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(7.dp),
+                    .padding(7.dp)
+                    .testTag("addNewZkr"),
                 placeholder = {
                     Text(text = stringResource(R.string.add_azkar))
                 },
@@ -83,7 +87,9 @@ fun AlertDialogAzkar(
             )
         },
         shape = RoundedCornerShape(9.dp),
-        containerColor = Color.White
+        containerColor = Color.White,
+        modifier = modifier
+            .testTag("alertDialog")
 
     )
 }
