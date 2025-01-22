@@ -7,6 +7,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,21 +35,29 @@ class MainActivity : ComponentActivity() {
             SebhaTheme(
                 darkTheme = themeState
             ) {
-                Column(
+                Scaffold(
                     modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    Toolbar(
-                        darkTheme = themeState,
-                        onThemeUpdated = {
-                            themeState = !themeState
-                            themeSharedPreferences
-                                .edit()
-                                .putBoolean("theme", themeState)
-                                .apply()
-                        }
-                    )
-                    HomeScreen()
+                        .fillMaxSize(),
+                    topBar = {
+                        Toolbar(
+                            darkTheme = themeState,
+                            onThemeUpdated = {
+                                themeState = !themeState
+                                themeSharedPreferences
+                                    .edit()
+                                    .putBoolean("theme", themeState)
+                                    .apply()
+                            }
+                        )
+                    }
+                ) { innerPadding ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    ) {
+                        HomeScreen()
+                    }
                 }
 
             }
