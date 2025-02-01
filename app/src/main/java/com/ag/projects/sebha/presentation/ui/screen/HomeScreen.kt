@@ -10,7 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +26,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ag.projects.sebha.R
 import com.ag.projects.sebha.presentation.ui.components.AzkarCardItem
 import com.ag.projects.sebha.presentation.ui.components.alert_dialog.AlertDialogAzkar
-import com.ag.projects.sebha.presentation.ui.theme.DarkBlue
 import com.ag.projects.sebha.presentation.ui.theme.Green
 import com.ag.projects.sebha.util.Result
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -60,90 +58,89 @@ fun HomeScreen(
     val refreshState = rememberSwipeRefreshState(false)
 
 
-    Scaffold(
-        modifier = modifier.fillMaxSize()
-    ) { innerpadding ->
-
-        SwipeRefresh(
-            state = refreshState,
-            onRefresh = {
-                refreshState.isRefreshing = true
-                scope.launch {
-                    viewModel.getAzkar()
-                    refreshState.isRefreshing = false
-                }
+    SwipeRefresh(
+        state = refreshState,
+        onRefresh = {
+            refreshState.isRefreshing = true
+            scope.launch {
+                viewModel.getAzkar()
+                refreshState.isRefreshing = false
             }
+        },
+        modifier = modifier
+            .fillMaxSize()
+            .padding(4.dp)
+    ) {
+
+        Box(
+            modifier = modifier
+                .fillMaxSize()
         ) {
-            Box(
+
+            LazyColumn(
                 modifier = modifier
                     .fillMaxSize()
-                    .padding(innerpadding)
+                    .testTag("lazyColumn")
             ) {
 
-                LazyColumn(
-                    modifier = modifier
-                        .fillMaxSize()
-                        .testTag("lazyColumn")
-                ) {
+                when (azkar) {
+                    is Result.Success -> {
+                        val azkarList = (azkar as Result.Success).data
 
-                    when (azkar) {
-                        is Result.Success -> {
-                            val azkarList = (azkar as Result.Success).data
-
-                            items(azkarList) { item ->
-                                AzkarCardItem(
-                                    modifier = modifier,
-                                    azkar = item,
-                                    onItemClick = {
-                                        //increment the count
-                                        scope.launch {
-                                            viewModel.incrementAzkarCount(item.id)
-                                            viewModel.getAzkar()
-                                        }
-                                    },
-                                    onDeleteClick = {
-                                        scope.launch {
-                                            viewModel.deleteAzkar(item.id)
-                                            viewModel.getAzkar()
-                                        }
-                                    },
-                                    onResetClick = {
-                                        scope.launch {
-                                            viewModel.resetAzkarToZero(item.id)
-                                            viewModel.getAzkar()
-                                        }
+                        items(azkarList) { item ->
+                            AzkarCardItem(
+                                modifier = modifier,
+                                azkar = item,
+                                onItemClick = {
+                                    //increment the count
+                                    scope.launch {
+                                        viewModel.incrementAzkarCount(item.id)
+                                        viewModel.getAzkar()
                                     }
-                                )
-                            }
-                        }
-
-                        is Result.Error -> {
-                            Log.d("Home Screen ", "Error ")
-                        }
-
-                        Result.Loading -> {
-                            Log.d("Home Screen ", "Loading ")
+                                },
+                                onDeleteClick = {
+                                    scope.launch {
+                                        viewModel.deleteAzkar(item.id)
+                                        viewModel.getAzkar()
+                                    }
+                                },
+                                onResetClick = {
+                                    scope.launch {
+                                        viewModel.resetAzkarToZero(item.id)
+                                        viewModel.getAzkar()
+                                    }
+                                }
+                            )
                         }
                     }
-                }
 
-                FloatingActionButton(
-                    onClick = {
-                        showDialog = true
-                    },
-                    containerColor = Green,
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(16.dp)
+                    is Result.Error -> {
+                        Log.d("Home Screen ", "Error ")
+                    }
 
-                ) {
-                    Icon(
-                        Icons.Filled.Add,
-                        contentDescription = "Add",
-                        tint = Color.White
-                    )
+                    Result.Loading -> {
+                        Log.d("Home Screen ", "Loading ")
+                    }
                 }
             }
+
+            FloatingActionButton(
+                onClick = {
+                    showDialog = true
+                },
+                containerColor = Green,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+
+            ) {
+                Icon(
+                    Icons.Filled.Add,
+                    contentDescription = "Add",
+                    tint = Color.White
+                )
+            }
+
             if (showDialog) {
                 AlertDialogAzkar(
                     title = stringResource(R.string.add_azkar),
@@ -176,5 +173,6 @@ fun HomeScreen(
                 )
             }
         }
+
     }
 }
